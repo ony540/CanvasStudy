@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      .canvas {
+        background: #eee;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>requestAnimationFrame</h1>
+    <canvas class="canvas" width="500" height="300"></canvas>
+
+    <script>
+      const canvas = document.querySelector('.canvas');
+      const context = canvas.getContext('2d');
+      let xPos = 10; //x 위치
+      let timerId;
+
+      function draw() {
+        context.clearRect(0, 0, canvas.width, canvas.height); //초기화
+        context.beginPath();
+        context.arc(xPos, 150, 10, 0, Math.PI*2, false);
+        context.fill();
+
+        //수가 클수록 속도가 빨라짐
+        xPos += 1;
+        // xPos = xPos + 3; 
+
+        // if (xPos >= canvas.width-10) {
+        //   return;
+        // }
+
+        timerId = requestAnimationFrame(draw);
+        // requestAnimationFrame(draw) - 다음 리페린트되기전에 해딩 애니메이션을 업데이트(자연스러운 애니메이션적용)
+
+        // if (xPos >= canvas.width-10) {
+        //   cancelAnimationFrame(timerId);
+        // }
+      }
+
+      draw();
+
+      canvas.addEventListener('click', () => {
+        cancelAnimationFrame(timerId);
+      });
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+

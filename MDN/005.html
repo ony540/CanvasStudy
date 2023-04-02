@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Canvas tutorial - MDN 문서</title>
+    <script type="text/javascript">
+        function draw() {
+            let canvas = document.getElementById('tutorial');
+
+            //호 그리기
+            if (canvas.getContext) {
+                let ctx = canvas.getContext('2d');
+
+                for (let i = 0; i < 4; i++) {
+                    for (let j = 0; j < 4; j++) {
+                        ctx.beginPath();
+                        let x = 25 + j * 50; // x  위치값
+                        let y = 25 + i * 50; // y 위치값
+
+                        let radius = 20; // Arc radius 반지름
+                        let startAngle = 0; // Starting point on circle
+                        let endAngle = Math.PI + (Math.PI * j) / 2; // End point on circle
+
+                        //i가 짝수면 시계뱡향 아니면 반시계 방향
+                        let anticlockwise = i % 2 == 0 ? false : true; // clockwise or anticlockwise
+
+                        ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+
+                        if (i > 1) {
+                            ctx.fill();
+                        } else {
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+
+                //arc(x, y, radius, startAngle, endAngle, anticlockwise) - 호나 원을 생성
+                //arcTo(x1, y1, x2, y2, radius(호의 반지름)) - 호나 원을 생성 + 이전 점과 직선으로 연결
+
+                /*
+                x, y - 원으 중간점
+                radius - 호의 반지름
+                startAngle과 endAngle - 원의 커브를 따라 호의 시작점과 끝점을 라디안 단위로 정의
+                공식 -> radians = (Math.PI/180)*degrees 
+                Math.PI == 반원 / Math.PI * 2 == 원 
+
+                anticlockwis - true(반시계방향) false(시계방향)
+                */
+            }
+        }
+    </script>
+    <style type="text/css">
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body onload="draw();">
+    <canvas id="tutorial" width="200" height="200"></canvas>
+</body>
+
+</html>

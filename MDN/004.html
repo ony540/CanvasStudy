@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Canvas tutorial - MDN 문서</title>
+    <script type="text/javascript">
+        function draw() {
+            let canvas = document.getElementById('tutorial');
+
+            //펜(pen) 이동하기 - 스마일 그리기
+            if (canvas.getContext) {
+                let ctx = canvas.getContext('2d');
+
+                ctx.beginPath();
+                ctx.arc(75, 75, 50, 0, Math.PI * 2, true); // Outer circle
+
+                ctx.moveTo(110, 75);
+                ctx.arc(75, 75, 35, 0, Math.PI, false); // Mouth (clockwise)
+
+                ctx.moveTo(65, 65);
+                ctx.arc(60, 65, 5, 0, Math.PI * 2, true); // Left eye
+
+                ctx.moveTo(95, 65);
+                ctx.arc(90, 65, 5, 0, Math.PI * 2, true); // Right eye
+                ctx.stroke();
+
+
+                //arc(x, y, radius, startAngle, endAngle, anticlockwise) - 호나 원을 생성
+                //arcTo(x1, y1, x2, y2, radius(호의 반지름)) - 호나 원을 생성 + 이전 점과 직선으로 연결
+
+                /*
+                x, y - 원으 중간점
+                radius - 호의 반지름
+                startAngle과 endAngle - 원의 커브를 따라 호의 시작점과 끝점을 라디안 단위로 정의
+                공식 -> radians = (Math.PI/180)*degrees 
+                Math.PI == 반원 / Math.PI * 2 == 원 
+
+                anticlockwis - true(반시계방향) false(시계방향)
+                */
+
+
+                // radians = (Math.PI/180)* degrees  - 공식을
+                function radian(deg) {
+                    return deg * Math.PI / 180;
+                }
+            }
+        }
+    </script>
+    <style type="text/css">
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body onload="draw();">
+    <canvas id="tutorial" width="150" height="150"></canvas>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Canvas tutorial - MDN 문서</title>
+    <script type="text/javascript">
+        function draw() {
+            let canvas = document.getElementById('tutorial');
+
+            //패스, 도형 그리기
+            if (canvas.getContext) {
+                let ctx = canvas.getContext('2d');
+
+                ctx.beginPath(); //경로 생성
+
+                ctx.moveTo(75, 50); // 펜을 x와 y 로 지정된 좌표로 옮긴다(시작점)
+                ctx.lineTo(100, 75); // 연결점
+                ctx.lineTo(100, 25);
+
+                ctx.closePath() //시작점까지 가서 닫기
+                ctx.stroke(); //외곽선 만들기(그냥하면 lineTo로 그어진것까지 - 선 2개만 나옴)
+
+                ctx.fill(); //채우기 (closePath 필요없음)
+            }
+        }
+    </script>
+    <style type="text/css">
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body onload="draw();">
+    <canvas id="tutorial" width="150" height="150"></canvas>
+</body>
+
+</html>
