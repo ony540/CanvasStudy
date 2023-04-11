@@ -8,6 +8,7 @@
       canvas {
         background: #eee;
       }
+
       .color-btn {
         width: 30px;
         height: 30px;
@@ -23,14 +24,14 @@
         height: 40px;
         background: url(../images/ilbuni2.png) no-repeat 50% 50% / cover;
       }
-      .result-image {
+      /* .result-image {
         
-      }
+      } */
     </style>
   </head>
 
   <body>
-    <h1>Image</h1>
+    <h1>Image - 그림판 만들기</h1>
     <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
     <div class="control">
       <button class="color-btn" data-type="color" data-color="black"></button>
@@ -45,6 +46,7 @@
     <script>
       const canvas = document.querySelector('.canvas');
       const context = canvas.getContext('2d');
+
       const control = document.querySelector('.control');
       const saveBtn = document.querySelector('.save-btn');
       const resultImage = document.querySelector('.result-image');

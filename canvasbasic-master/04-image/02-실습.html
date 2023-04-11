@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Canvas</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{
+      background-color: #eee;
+    }
+    canvas {
+      background: white;
+    }
+
+    .color-btn {
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 50%;
+    }
+
+    .color-btn[data-color='black'] {
+      background-color: black;
+    }
+
+    .color-btn[data-color='red'] {
+      background-color: red;
+    }
+
+    .color-btn[data-color='green'] {
+      background-color: green;
+    }
+
+    .color-btn[data-color='blue'] {
+      background-color: blue;
+    }
+
+    .image-btn {
+      width: 40px;
+      height: 40px;
+      background: url(../images/ilbuni2.png) no-repeat 50% 50% / cover;
+    }
+
+  </style>
+</head>
+
+<body>
+  <h1>Image - 그림판 만들기</h1>
+  <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+  <div class="control">
+    <button class="color-btn" data-type='color' data-color="black"></button>
+    <button class="color-btn" data-type='color' data-color="red"></button>
+    <button class="color-btn" data-type='color' data-color="green"></button>
+    <button class="color-btn" data-type='color' data-color="blue"></button>
+    <button class="image-btn" data-type="image"></button>
+  </div>
+  <button class="save-btn">이미지 저장</button>
+  <div class="result-img"></div>
+
+
+  <script>
+    const canvas = document.querySelector('.canvas');
+    const context = canvas.getContext('2d');
+    const control = document.querySelector('.control');
+    const saveBtn = document.querySelector('.save-btn');
+    const resultImg = document.querySelector('.result-img');
+    let drawingMode; //true일때만 그리기
+    let brush = 'color'; //color또는 image - 디폴트는 컬러
+    let colorVal = 'black'; //색상
+
+    const imgElem = new Image();
+    imgElem.src = '../images/ilbuni2.png';
+
+    //눌린 상태에서만 그려지게 한다.
+    function downHandler(e) { //눌렀을때
+      drawingMode = true;
+    }
+
+    function upHandler(e) { //땠을때
+      drawingMode = false;
+    }
+
+    function moveHandler(e) {
+      if (!drawingMode) return;
+
+      switch (brush) {
+        case 'color':
+          context.beginPath();
+          // layerXY 값 아님 !! e.offsetX,e.offsetY O!!!
+          context.arc(e.offsetX, e.offsetY, 10, 0, Math.PI * 2, false);
+          context.fill();
+          break;
+        case 'image':
+          context.drawImage(imgElem,e.offsetX-25, e.offsetY-25,50,50);
+          break;
+      }
+
+    }
+
+    //색상바꾸기 + 이미지 브러쉬
+    function setColor(e) {
+      colorVal = e.target.getAttribute('data-color');
+      brush = e.target.getAttribute('data-type'); //브러쉬인지 이미지버튼인지
+      context.fillStyle = colorVal;
+    }
+
+    // 이미지 저장 Method canvas.toDataURL('image/png'); ! !
+    function createImage(){
+
+      const url = canvas.toDataURL('image/png');
+
+      const imgElem = new Image();
+      imgElem.src = url;
+      resultImg.appendChild(imgElem); //div안에 이미지 넣기
+    }
+
+    canvas.addEventListener('mousedown', downHandler);
+    canvas.addEventListener('mouseup', upHandler);
+    canvas.addEventListener('mousemove', moveHandler);
+    control.addEventListener('click', setColor); //부모에 이벤트 위임!
+    saveBtn.addEventListener('click',createImage);
+  </script>
+</body>
+
+</html>

@@ -31,20 +31,24 @@
         xPos += 1;
         // xPos = xPos + 3; 
 
-        // if (xPos >= canvas.width-10) {
+        // 멈추게하기
+        //1. requestAnimationFrame 하기전에 return해서 멈추게 하기 
+        // if (xPos >= canvas.width-10) { //끝에 닿으면 멈춤
         //   return;
         // }
 
         timerId = requestAnimationFrame(draw);
         // requestAnimationFrame(draw) - 다음 리페린트되기전에 해딩 애니메이션을 업데이트(자연스러운 애니메이션적용)
 
-        // if (xPos >= canvas.width-10) {
-        //   cancelAnimationFrame(timerId);
-        // }
+        //2. 이후면 cancelAnimationFrame (
+        if (xPos >= canvas.width-10) {
+          cancelAnimationFrame(timerId);
+        }
       }
 
       draw();
 
+      //캔버스를 클릭하면 멈추게 하기
       canvas.addEventListener('click', () => {
         cancelAnimationFrame(timerId);
       });
