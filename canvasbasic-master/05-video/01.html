@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Canvas</title>
+    <title>Canvas 비디오</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       canvas {
         background: #eee;
       }
+
+      /* 비디오 안보이게 하기 */
       video {
         position: absolute;
         width: 0;
@@ -17,6 +19,10 @@
   </head>
 
   <body>
+    <!-- 캔버스에서 비디오를 사용하는 이유
+    - 픽셀단위로 조작가능하기 때문에 비디오도 그렇게 조작하기 위해서 
+    - 이미지대신 비디오를 그렸다고 생각하기 -->
+
     <h1>Video</h1>
     <video class="video" src="../images/video.mp4" autoplay muted loop></video>
     <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
@@ -24,17 +30,23 @@
     <script>
       const canvas = document.querySelector('.canvas');
       const ctx = canvas.getContext('2d');
+
       let canPlayState = false;
 
       ctx.textAlign = 'center';
       ctx.fillText('비디오 로딩 중..', 300, 200);
 
       const videoElem = document.querySelector('.video');
+
+      //canplaythrough - 비디오가 재생준비가되면 발생하는 이벤트
       videoElem.addEventListener('canplaythrough', render);
 
       function render() {
+        //.drawImage 에 이미지넣는거 처럼 비디오 넣기!
         ctx.drawImage(videoElem, 0, 0, 600, 400);
+
         requestAnimationFrame(render);
+        //requestAnimationFrame - 다음 리페린트되기전에 해딩 애니메이션을 업데이트(자연스러운 애니메이션적용)
       }
     </script>
   </body>

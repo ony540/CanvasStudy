@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Canvas</title>
+    <title>Canvas - 색상필터</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -37,37 +37,49 @@
       const videoElem = document.querySelector('.video');
       videoElem.addEventListener('canplaythrough', render);
 
+      //버튼
       const btnsElem = document.querySelector('.btns');
 
       let imageData;
-      const particles = [];
-      let particle;
       let colorValue;
       let leng;
 
       function render() {
         ctx.drawImage(videoElem, 0, 0, 600, 400);
+
+        //ctx.getImageData - 0,0을 왼쪽위모서리로하고 600x400 크기 만큼  ctx에서 imageData로 들고오기
+        // 지정위치에 기본 픽셀 데이터를 나타내는 개체(ImageData)를 반환한다
         imageData = ctx.getImageData(0, 0, 600, 400);
         leng = imageData.data.length / 4;
+        //leng은 한페이지의 픽셀개수를 의미 
+        //imageData.data.length - 각 픽셀마다의 r,g,b,a값을 배열로 담은 것 (따라서 4로 나누면 픽셀의 개수)
 
         for (let i = 0; i < leng; i++) {
           switch(colorValue) {
             case 'red':
+              // r값들을 전부 255로
               imageData.data[i * 4 + 0] = 255;
               break;
             case 'green':
+              // g값들을 전부 255로
               imageData.data[i * 4 + 1] = 255;
               break;
             case 'blue':
+              // b값들을 전부 255로
               imageData.data[i * 4 + 2] = 255;
               break;
           }
         }
 
+        //ctx.putImageData - imageData를 0,0을 왼쪽위 모서리로해서 배치하기
+        //위의 이미지 데이터를 다시 배치
         ctx.putImageData(imageData, 0, 0);
+
+        //뒤에 랜더
         requestAnimationFrame(render);
       }
 
+      // 버튼 클릭하면 data-color의 속성을 colorValue로 지정
       btnsElem.addEventListener('click', function (e) {
         colorValue = e.target.getAttribute('data-color');
       });
