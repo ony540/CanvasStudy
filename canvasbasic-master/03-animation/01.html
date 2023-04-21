@@ -40,7 +40,7 @@
         timerId = requestAnimationFrame(draw);
         // requestAnimationFrame(draw) - 다음 리페린트되기전에 해딩 애니메이션을 업데이트(자연스러운 애니메이션적용)
 
-        //2. 이후면 cancelAnimationFrame (
+        //2. 이후면 cancelAnimationFrame ()로 애니메이션 종료
         if (xPos >= canvas.width-10) {
           cancelAnimationFrame(timerId);
         }
