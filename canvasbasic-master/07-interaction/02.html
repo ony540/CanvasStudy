@@ -106,8 +106,8 @@
       }
 
       canvas.addEventListener('click', e => {
-        mousePos.x = e.layerX;
-        mousePos.y = e.layerY;
+        mousePos.x = e.offsetX;
+        mousePos.y = e.offsetY;
 
         let box;
         for (let i = 0; i < boxes.length; i++) {

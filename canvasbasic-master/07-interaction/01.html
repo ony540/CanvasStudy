@@ -20,12 +20,13 @@
       const context = canvas.getContext('2d');
 
       context.fillRect(200, 200, 100, 100);
+      // 사각형을 단지 그린 거기때문에 거기를 tag를 잡을 수 없다!
 
       function clickHandler(이벤트) {
         // console.log(이벤트.clientX, 이벤트.clientY);
-        // console.log(이벤트.layerX, 이벤트.layerY);
-        const x = 이벤트.layerX;
-        const y = 이벤트.layerY;
+        // console.log(이벤트.offsetX, 이벤트.offsetY);
+        const x = 이벤트.offsetX;
+        const y = 이벤트.offsetY;
 
         if (x > 200 &&
             x < 200 + 100 &&
