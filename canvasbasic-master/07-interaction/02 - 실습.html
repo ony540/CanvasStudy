@@ -16,16 +16,130 @@
   <h1>Interaction</h1>
   <canvas class="canvas" width="600" height="400"></canvas>
 
-
+  <script src="./utils.js"></script>
+  <script src="./Box-실습.js"></script>
+  <script src="./Panel-실습.js"></script>
   <script>
     const canvas = document.querySelector('.canvas');
     const context = canvas.getContext('2d');
+    const boxes = [];
+    const mousePos = {
+      x: 0,
+      y: 0
+    };
+    let panel; //박스 정보 담는 패널
+    let oX, oY; //캔버스의 중심점
+    let step; // 애플리케이션의 상태(단계)를 저장 1-4
+    let rafId; // requestAnimationFrame ID
 
-    class Box {
-      constructor() {}
+    let selectedBox; //클릭된 box
+    context.font = 'bold 30px sans-serif';
+
+
+    //오른쪽으로 흐르게하는 함수
+    function render() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      //기본적으로 박스를 그리게 하기
+      let box;
+      for (let i = 0; i < boxes.length; i++) {
+        box = boxes[i];
+        box.draw();
+      }
+
+      switch (step) {
+        case 1: //오른쪽으로 움직이게 하기
+          for (let i = 0; i < boxes.length; i++) {
+            box = boxes[i];
+            box.x += box.speed; //각자 다른 속도를 가짐
+            if (box.x > canvas.width) { //캔버스를 완전히 벗어나면 다시 맨앞부터
+              box.x = -box.width;
+            }
+          }
+          break;
+
+        case 2: //클릭하면 멈추고 패널 사이즈 작은거에서 커지게하기 (scale은 1이 가장 큰것)
+          // panel.scale += 0.02;
+
+          // 가속도로 커지게하기
+          // 현재크기 = 현재크기 + (목표크기 - 현재크기)*0.1 (영원히 1이 될 수 없음!)
+          panel.scale = panel.scale + (1 - panel.scale)*0.1;
+
+          //가속도로 회전 시키기
+          //각도 = 스케일(0-1까지 가능) * 720 - 0부터 720사이의 값이 나온다
+          panel.angle = panel.scale * 720;
+
+          panel.draw();
+          if (panel.scale >= 0.999) {
+            panel.scale = 1; //가속도로 하면 1로 떨어지지않기때문에 고정 시켜주기
+            step = 3;
+          }
+
+          break;
+        case 3: //사이즈 커지는 거 멈추고
+          panel.draw();
+          
+          break;
+      }
+
+      rafId = requestAnimationFrame(render);
+      console.log(rafId); //실행될 때마다 숫자가 늘어남
+      if( step === 3){
+        panel.showContent(); // 텍스트 보이게
+        cancelAnimationFrame(rafId); //렌더 멈추게
+      }
     }
 
-    new Box();
+
+    //초기화 함수 - 랜덤한 박스 객체 10개 만들기
+    let tempX, tempY, tempSpeed; //포문 밖에 변수를 선언하는게 메모리 관리상 더 좋다 (굳이 포문안에 넣을 필요 없다)
+
+    function init() {
+      step = 1;
+      oX = canvas.width / 2;
+      oY = canvas.height / 2;
+
+      for (let i = 0; i < 10; i++) {
+        tempX = Math.random() * canvas.width * 0.8;
+        tempY = Math.random() * canvas.height * 0.8;
+        tempSpeed = Math.random() * 4 + 1;
+        boxes.push(new Box(i, tempX, tempY, tempSpeed)); //랜덤한 위치에 박스 좌표
+      }
+
+      panel = new Panel(); //패널 인스턴스 생성
+      render();
+    }
+
+    //박스 클릭하면 선택됨
+    canvas.addEventListener('click', e => {
+      mousePos.x = e.offsetX;
+      mousePos.y = e.offsetY; //마우스 위치 저장 
+
+      let box;
+      for (let i = 0; i < boxes.length; i++) {
+        box = boxes[i];
+        if (mousePos.x > box.x && //마우스 x의 위치가 박스의 가로 사이에 있고
+          mousePos.x < box.x + box.width &&
+          mousePos.y > box.y && //마우스 y의 위치가 박스의 세로 사이에 있을때
+          mousePos.y < box.y + box.height) {
+          // 겹쳐졌을때 하나만 클릭 되어야한다면 가장 위에 있는게 클릭되려면 
+          // - 변수에 저장해서 마지막에 저장된 값의 인덱스를 선택됐다고 인식하기
+
+          selectedBox = box;
+        }
+
+        if (step === 1 && selectedBox) {
+          step = 2;
+        } else if (step === 3) {
+          step = 1;
+          panel.scale = 0;
+          selectedBox = null;
+          render() //다시 렌더가 실행되도록 하기
+        }
+      }
+    });
+
+    init();
   </script>
 </body>
 
