@@ -7,33 +7,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     canvas {
-      background: #eee;
+      border: 1px solid black;
     }
   </style>
 </head>
 
 <body>
-  <h1>Image</h1>
-  <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+  <canvas class="canvas" width="300" height="300">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
 
   <script>
     const canvas = document.querySelector('.canvas');
     const context = canvas.getContext('2d');
     const imgElem = new Image();
-    imgElem.src = '../images/lovelyCat.png'; //src불러오기
+    imgElem.src = './images/lovelyCat.jpg'; //src불러오기
 
-    // const imgElem = document.createElement('img');
-
-    // drawImage(image, x, y, width, height)
-
-    // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) 
-    /// sx, sy, sWidth, sHeight -> 소스 안에서 x,y좌표부터 s너비와 s높이를 가진 이미지를
-    // dx, dy, dWidth, dHeight -> 캔버스 상에서 그려질 위치와 크기에 넣는다!
-
-    imgElem.addEventListener('load', () => { //로드가 되면 실행될 것들
-      context.drawImage(imgElem, 50, 50); //그릴 위치
-      context.drawImage(imgElem, 50, 50, 70, 120); //위치, 크기(비율이 안맞음)
-      context.drawImage(imgElem, 100, 100, 200, 200, 0, 0, 100, 100);
+    imgElem.addEventListener('load', () => {
+      context.drawImage(imgElem, 50, 50); //(50,50)에 이미지 배치
+      context.drawImage(imgElem, 50, 50, 100, 200); //100x200 크기로 비율을 조정하여 (50,50)에 배치
+      context.drawImage(imgElem, 76, 31, 65, 65, 100, 100, 65, 65);
+      //소스 이미지에서 (76,31)부터 65X65 크기로 잘라서 
+      //(100,100)에 65x65 크기로 배치
     });
   </script>
 </body>

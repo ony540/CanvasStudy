@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Canvas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas class="canvas" width="300" height="300">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+
+    <script>
+        const canvas = document.querySelector('.canvas');
+        const context = canvas.getContext('2d');
+
+        //이미지 불러오기
+        const imgElem = new Image();
+        imgElem.src = './images/pattern.jpg'; 
+
+        // 2중 for문으로 패턴 그리기
+        imgElem.addEventListener('load', () => { //이미지가 load되면
+            for (var i = 0; i < 6; i++) { //y축 반복 
+                for (var j = 0; j < 6; j++) { //x축 반복
+                    context.drawImage(imgElem, j * 50, i * 50, 50, 50);
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>
