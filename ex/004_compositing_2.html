@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>목표물 찾기</title>
+</head>
+
+<body>
+    <canvas class="canvas" width="300" height="300">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+    <script>
+        const canvas = document.querySelector("canvas");
+        const ctx = canvas.getContext("2d");
+
+        // multiply - 이미지 합성 속성
+        ctx.globalCompositeOperation = "multiply";
+
+        //타겟 이미지
+        const target = new Image();
+        target.src = './images/target.png';
+        target.addEventListener('load', () => {
+            ctx.drawImage(target, 123, 126);
+        });
+
+        //조명 이미지
+        const spotlight = new Image();
+        spotlight.src = './images/spotlight.png';
+        spotlight.addEventListener('load', () => {
+            ctx.drawImage(spotlight, -148, -152); //타겟 위치
+            // ctx.drawImage(spotlight, -240, -240);
+        });
+
+        // 조명 옮기기 함수
+        function moveHandler(e) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); //초기화
+            ctx.drawImage(target, 123, 126); //타겟 이미지 초기화
+            ctx.drawImage(spotlight, e.offsetX - 300, e.offsetY - 300); //클릭 위치에 조명 배치하기 
+        }
+
+        //클릭하면 조명 위치 옮기기
+        canvas.addEventListener('click', moveHandler);
+    </script>
+</body>
+
+</html>

@@ -22,6 +22,7 @@
         let scaleValue = 1; //크기값
         let rotationValue = 0; //회전 각도
         //canvas는 각도를 우리가 생각하는 360도가 아닌 라디안값!!으로 넣어야함 / 360도 =  2 파이 1도 파이%180
+        let drawing;
 
         function toRadian(d){
             return d * Math.PI / 180;
@@ -34,7 +35,7 @@
             // save와 restore O - 초기값을 저장하고 / 350 350을 원점으로 / (-50,-50)에서 strokeRect를 실행 / 그다음에 다시 초기값을 회복하고 / clearRect로 페이지를 초기화해서 그냥 사각형이 커지지만 함
             // save와 restore X - 350 350으로 원점을 옮겨놓은 상태에서 - 위의 clearRect가 실행되므로 350,350을 0,0으로 인식하고 거기부터 캔버스 크기만큼 초기화하는 모양이 된다
 
-            context.setTransform(1,0,0,1,0,0); //현재 변화 상태를 행렬로 저장하는 것 (1,0,0,1,0,0) 이 defult
+            // context.setTransform(1,0,0,1,0,0); //이전까지의 현재 변화 상태를 행렬로 저장하는 것 (1,0,0,1,0,0) 이 defult
             context.resetTransform(); // 변화상태 초기화 
             //단위 행렬 - 어떤 애가 됐던간에 단위행열을 곱했을때는 값의 변화가 없다
 
@@ -57,12 +58,13 @@
       
             // context.fillRect(10,10,30,30); //이것도 save restore 없으면 350 350 위치를 기준으로 생긴다
 
-            requestAnimationFrame(draw);
+            drawing = requestAnimationFrame(draw);
         }
         draw();
 
         canvas.addEventListener('click' , () => {
-            cancelAnimationFrame(draw);
+            console.log('clod');
+            cancelAnimationFrame(drawing);
         });
     </script>
 </body>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        canvas {
+            border: 1px solid black;
+            /* background-color: black; */
+        }
+    </style>
+</head>
+
+<body>
+    <canvas class="canvas" width="300" height="300">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+    <script>
+        const canvas = document.querySelector("canvas");
+        const context = canvas.getContext("2d");
+
+        //이미지 합성 속성 지정
+        // context.globalCompositeOperation = "multiply";
+        // context.globalCompositeOperation = "xor";
+        // context.globalCompositeOperation = "destination-atop";
+        
+        context.fillStyle = "blue";
+        context.fillRect(30, 30, 100, 100);
+        
+        context.fillStyle = "red";
+        context.fillRect(60, 60, 100, 100);
+
+        context.fillStyle = "yellow";
+        context.fillRect(90, 90, 100, 100);
+    </script>
+</body>
+
+</html>
