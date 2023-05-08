@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Canvas</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style>
+            canvas {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Transform</h1>
+        <canvas class="canvas" width="300" height="300"></canvas>
+
+        <script>
+            const canvas = document.querySelector(".canvas");
+            const context = canvas.getContext("2d");
+
+            // translate
+            // context.fillStyle = '#B4A1DB';
+            // context.fillRect(0, 0, 50, 50); //1
+
+            // context.translate(80, 80); //기준점을 (80,80)로 이동
+
+            // context.fillStyle = '#30A4A4';
+            // context.fillRect(0, 0, 50, 50); //2
+            // //기존의 (150,150)을 (0,0)으로 인식
+
+            // context.translate(80, 80); //기준점을 80씩 더 이동하여 (160,160)로 이동
+
+            // context.fillStyle = '#F0645C';
+            // context.fillRect(0, 0, 50, 50); //3
+
+            // rotate
+            // context.translate(150, 150);
+            // context.globalAlpha = 0.8;
+
+            // context.fillStyle = "#B4A1DB";
+            // context.fillRect(0, 0, 80, 80); //1
+
+            // context.rotate((Math.PI / 180) * 45); //45도 회전
+
+            // context.fillStyle = "#30A4A4";
+            // context.fillRect(0, 0, 80, 80); //2
+
+            // context.rotate((Math.PI / 180) * 65); //65도 더 회전 (110도)
+
+            // context.fillStyle = "#F0645C";
+            // context.fillRect(0, 0, 80, 80); //3
+
+            // scale-기본
+            // context.globalAlpha = 0.8;
+
+            // context.fillStyle = "#B4A1DB";
+            // context.fillRect(0, 0, 80, 80); //1
+
+            // context.scale(2, 0.5); //가로 2배, 세로 0.5배시키기
+
+            // context.fillStyle = "#30A4A4";
+            // context.fillRect(0, 0, 80, 80); //2
+
+            // context.scale(2, 0.5); //이전 scale에서 가로 2배, 세로 0.5배시키기
+
+            // context.fillStyle = "#F0645C";
+            // context.fillRect(0, 0, 80, 80); //3
+
+            //scale-반전
+            context.translate(150, 110);
+            context.font = "48px san-serif";
+
+            context.fillStyle = "#B4A1DB";
+            context.fillText("reflect",10,50); //1
+
+            context.scale(-1, 1); //수평으로 반전
+
+            context.fillStyle = "#30A4A4";
+            context.fillText("reflect",10,50); //2
+
+            context.scale(1, -1); //다시 수직으로 반전
+
+            context.fillStyle = "#F0645C";
+            context.fillText("reflect",10,50); //3
+            
+        </script>
+    </body>
+</html>
