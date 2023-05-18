@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>그림판</title>
+    <style>
+        #canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <input type="color" id="colorPicker">
+    <input type="range" id="lineWidthRange" min="1" max="20" value="1">
+    <input type="range" id="circleSizeRange" min="1" max="50" value="10">
+    <button id="clearCanvasButton">전체 지우기</button>
+    <label for="eraseCheckbox">지우개</label>
+    <input type="checkbox" id="eraseCheckbox">
+
+    <script>
+        // 캔버스 요소 가져오기
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        // 그리기 상태 초기화
+        let isDrawing = false;
+
+        // 마우스 이벤트 처리
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        // 그리기 시작
+        function startDrawing(event) {
+            isDrawing = true;
+            drawCircle(event.offsetX, event.offsetY);
+        }
+
+        // 그리기 중
+        function draw(event) {
+            if (!isDrawing) return;
+            drawCircle(event.offsetX, event.offsetY);
+        }
+
+        // 그리기 중지
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        // 원 그리기
+        function drawCircle(x, y) {
+            const circleSize = document.getElementById('circleSizeRange').value;
+            const eraseMode = document.getElementById('eraseCheckbox').checked;
+
+            context.beginPath();
+            context.arc(x, y, circleSize, 0, Math.PI * 2);
+            if (eraseMode) {
+                context.globalCompositeOperation = 'destination-out';
+            } else {
+                context.globalCompositeOperation = 'source-over';
+                context.fillStyle = document.getElementById('colorPicker').value;
+                context.fill();
+            }
+        }
+
+        // 전체 지우기 버튼 클릭 이벤트 처리
+        document.getElementById('clearCanvasButton').addEventListener('click', clearCanvas);
+
+        // 캔버스 초기화
+        function clearCanvas() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // 지우개 안됨 수정하기
+        //원 뚝뚝끊김
+    </script>
+</body>
+</html>

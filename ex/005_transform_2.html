@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Canvas</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style>
+            canvas {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Transform</h1>
+        <canvas class="canvas" width="300" height="300"></canvas>
+
+        <script>
+            const canvas = document.querySelector(".canvas");
+            const context = canvas.getContext("2d");
+
+            //transform
+            // scale
+            context.globalAlpha = 0.8;
+
+            context.fillStyle = "#8469B9";
+            context.fillRect(0, 0, 100, 100);
+
+            context.transform(0.5, 0, 0, 2, 0, 0); //1,4 - x축 0.5배, y축 2배 크기
+
+            context.fillStyle = "#30A4A4";
+            context.fillRect(0, 0, 100, 100);
+
+            //skew (3단계로 나눠서 보여주기)
+            context.setTransform(1, 0, 0, 1, 0, 0); //default 값
+            context.globalAlpha = 0.8;
+
+            context.fillStyle = "#8469B9";
+            context.fillRect(0, 0, 100, 100);
+
+            context.transform(1, 0.8, 0, 1, 0, 0); //2 - 수직으로 0.8배 비틀기
+
+            context.fillStyle = "#30A4A4";
+            context.fillRect(0, 0, 100, 100);
+
+            // 두개로 예제 보여주기
+            context.transform(1, 0, 0.5, 1, 0, 0); //3 - 수평으로 0.5배 비틀기
+            //transform - 이전 수직 0.8배 비틀린 상태에서 누적되어 도출된다!
+
+            context.setTransform(1, 0, 0.5, 1, 0, 0); //3 - 수평으로 0.5배 비틀기
+            // setTransform - 이전 값이 남아있지 않고 값 그대로 설정(set)
+
+            context.fillStyle = "#F0645C";
+            context.fillRect(0, 0, 100, 100);
+
+            //3.translate(두개 상황보여주기)
+            context.fillStyle = "#8469B9";
+            context.fillRect(0, 0, 100, 100);
+
+            context.transform(1, 0, 0, 1, 150, 0); //5 - x축으로 100px 이동
+
+            context.fillStyle = "#30A4A4";
+            context.fillRect(0, 0, 100, 100);
+
+            context.transform(1, 0, 0, 1, 0, 150); //6 - y축으로 150px 이동
+            //transform - 이전 x축으로 100px 이동 상태에서 누적되어 도출
+
+            context.setTransform(1, 0, 0, 1, 0, 150); //6 - y축으로 150px 이동
+            // setTransform - 이전 값이 남아있지 않고 값 그대로 설정(set)
+
+            context.fillStyle = "#F0645C";
+            context.fillRect(0, 0, 100, 100);
+
+            //4. set이랑 reset 예제
+            context.setTransform(1, 0, 0, 1, 0, 0); //기본 상태
+            //이전까지의 현재 변화 상태를 행렬로 저장하는 것 (1,0,0,1,0,0) 이 defult
+
+            context.fillStyle = "#8469B9";
+            context.fillRect(0, 0, 100, 100); 
+
+            context.setTransform(0.5, 1, 1, 0.5, 100, 100); //상태변경
+
+            context.fillStyle = "#30A4A4";
+            context.fillRect(0, 0, 100, 100);
+
+            // 두개가 같은 기능(두가지 다 보여주기)
+            context.resetTransform(); // 변화상태 초기화
+
+            context.fillStyle = "#F0645C";
+            context.fillRect(0, 0, 50, 50);
+
+        </script>
+    </body>
+</html>

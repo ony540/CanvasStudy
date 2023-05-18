@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>목표물 찾기</title>
+    </head>
+
+    <body>
+        <canvas id="canvas" width="600" height="600">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+        <script>
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+
+            const imgElem = new Image();
+            imgElem.src = "./images/lovelyCat.jpg"; //src불러오기
+
+            // 이미지를 그리기 전에 2배 확대
+            ctx.scale(4, 4); 
+            // ctx.scale(8, 8); //3밀리
+
+            // 작은 이미지 그리기
+            // ctx.drawImage(smallImage1, 0, 0);
+            // ctx.drawImage(smallImage2, 10, 10);
+            // ctx.drawImage(smallImage3, 20, 20);
+            imgElem.addEventListener('load', () => {
+                ctx.drawImage(imgElem, 100, 100);
+            })
+
+            // 이미지 그리기 후에 0.5배 축소
+            ctx.scale(0.25, 0.25);
+            // ctx.scale(0.125, 0.125);
+        </script>
+    </body>
+</html>
