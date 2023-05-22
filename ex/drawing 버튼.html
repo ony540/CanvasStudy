@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>그림판</title>
+        <!-- <link rel="stylesheet" href="style.css"> -->
         <style>
             body {
                 margin: 0 auto;
@@ -26,14 +27,15 @@
                 cursor: pointer;
             }
             button:hover {
-                box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+                box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.8), 4px 4px 5px 0px rgba(0, 0, 0, 0.3);
             }
             button.selected {
-                box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+                box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.8), 4px 4px 5px 0px rgba(0, 0, 0, 0.3);
             }
 
             #eraseButton {
-                background: white url(./img/erage.svg) center/contain;
+                /* background: white url(./img/erage.svg) center/contain; */
+                background: url("https://i.ibb.co/W0pFWhY/erage.png") center/contain;
                 border: 1.4px solid #666;
                 box-sizing: border-box;
             }
@@ -57,23 +59,25 @@
     </head>
     <body>
         <canvas id="canvas" width="500" height="500"></canvas>
-        <label>
-            LINE WIDTH
-            <input type="range" id="lineWidthRange" min="1.5" max="20" value="1.5" />
-        </label>
-        <button id="clearCanvasButton">RESET</button>
+        <div>
+            <label>
+                LINE WIDTH
+                <input type="range" id="lineWidthRange" min="1.5" max="20" value="1.5" />
+            </label>
+            <button id="clearCanvasButton">RESET</button>
+        </div>
         <div class="btnList">
-            <button class="color-button selected" id="blackButton" style="background-color: black"></button>
-            <button class="color-button" id="redButton" style="background-color: red"></button>
-            <button class="color-button" id="pinkButton" style="background-color: pink"></button>
-            <button class="color-button" id="orangeButton" style="background-color: orange"></button>
-            <button class="color-button" id="yellowButton" style="background-color: yellow"></button>
-            <button class="color-button" id="yellowgreenButton" style="background-color: yellowgreen"></button>
-            <button class="color-button" id="greenButton" style="background-color: green"></button>
-            <button class="color-button" id="skyBlueButton" style="background-color: skyblue"></button>
-            <button class="color-button" id="blueButton" style="background-color: blue"></button>
-            <button class="color-button" id="navyButton" style="background-color: navy"></button>
-            <button class="color-button" id="purpleButton" style="background-color: purple"></button>
+            <button class="color-button selected" style="background-color: black"></button>
+            <button class="color-button" style="background-color: red"></button>
+            <button class="color-button" style="background-color: pink"></button>
+            <button class="color-button" style="background-color: orange"></button>
+            <button class="color-button" style="background-color: yellow"></button>
+            <button class="color-button" style="background-color: yellowgreen"></button>
+            <button class="color-button" style="background-color: green"></button>
+            <button class="color-button" style="background-color: skyblue"></button>
+            <button class="color-button" style="background-color: blue"></button>
+            <button class="color-button" style="background-color: navy"></button>
+            <button class="color-button" style="background-color: purple"></button>
             <button id="eraseButton"></button>
         </div>
 
@@ -82,24 +86,24 @@
             const canvas = document.getElementById("canvas");
             const context = canvas.getContext("2d");
 
-            // 그리기 상태 초기화
+            // 1.그리기 상태 초기화
             let isDrawing = false;
             let lastX = 0;
             let lastY = 0;
 
-            // 마우스 이벤트 처리
+            // 2.마우스 이벤트 처리
             canvas.addEventListener("mousedown", startDrawing);
             canvas.addEventListener("mousemove", draw);
             canvas.addEventListener("mouseup", stopDrawing);
             canvas.addEventListener("mouseout", stopDrawing);
 
-            // 그리기 시작
+            // 3.그리기 시작 함수
             function startDrawing(event) {
                 isDrawing = true;
                 [lastX, lastY] = [event.offsetX + 0.5, event.offsetY + 0.5];
             }
 
-            // 그리기 중
+            // 4.그리기 중 함수
             function draw(event) {
                 if (!isDrawing) return;
                 context.beginPath();
@@ -107,38 +111,35 @@
                 context.lineTo(event.offsetX + 0.5, event.offsetY + 0.5);
                 context.strokeStyle = getSelectedColor();
                 context.lineWidth = document.getElementById("lineWidthRange").value;
-                context.lineJoin = "round"; // 선의 모서리를 부드럽게 연결
+                context.lineCap = "round";
+                context.lineJoin = "round"; // 선의 모서리와 연결부를 부드럽게 연결
                 context.globalCompositeOperation = document.getElementById("eraseButton").checked ? "destination-out" : "source-over";
                 context.stroke();
                 [lastX, lastY] = [event.offsetX + 0.5, event.offsetY + 0.5];
             }
 
-            // 그리기 중지
+            // 5.그리기 중지 함수
             function stopDrawing() {
                 isDrawing = false;
             }
 
-            // 전체 지우기 버튼 클릭 이벤트 처리
+            // 6.초기화 버튼 클릭 이벤트 처리
             document.getElementById("clearCanvasButton").addEventListener("click", clearCanvas);
-
-            // 지우개 버튼 클릭 이벤트 처리
-            document.getElementById("eraseButton").addEventListener("click", toggleEraseMode);
-
-            // 캔버스 초기화
+            // 캔버스 초기화 함수
             function clearCanvas() {
                 context.clearRect(0, 0, canvas.width, canvas.height);
             }
 
-            // 선택된 색상 가져오기
-            function getSelectedColor() {
-                const selectedColorButton = document.querySelector(".color-button.selected");
-                if (selectedColorButton) {
-                    return selectedColorButton.style.backgroundColor;
-                }
-                return "black"; // 기본값
+            // 7.지우개 버튼 클릭 이벤트 처리
+            document.getElementById("eraseButton").addEventListener("click", eraseMode);
+            // 지우개 모드 키기 함수
+            function eraseMode() {
+                const eraseButton = document.getElementById("eraseButton");
+                eraseButton.checked = true;
+                eraseButton.classList.add("selected");
             }
 
-            // 버튼 클릭 이벤트 처리
+            // 8.버튼 클릭 이벤트 처리
             const colorButtons = document.querySelectorAll(".color-button");
             colorButtons.forEach((button) => {
                 button.addEventListener("click", () => {
@@ -151,12 +152,15 @@
                 });
             });
 
-            // 지우개 모드 키기
-            function toggleEraseMode() {
-                const eraseButton = document.getElementById("eraseButton");
-                eraseButton.classList.add("selected");
-                eraseButton.checked = true;
+            // 9.선택된 색상 가져오기 함수
+            function getSelectedColor() {
+                const selectedColorButton = document.querySelector(".color-button.selected");
+                if (selectedColorButton) {
+                    return selectedColorButton.style.backgroundColor;
+                }
+                return "black"; // 기본값
             }
         </script>
+        <!-- <script src="paintbrush.js"></script> -->
     </body>
 </html>
